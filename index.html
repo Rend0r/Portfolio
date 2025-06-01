@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rendor - Custom Web Development & Design</title>
+    <meta name="description" content="Rendor offers custom, hand-coded web development services (HTML, CSS, JavaScript) for impactful, responsive websites. No CMS, no templates.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .hero-bg {
+            background-color: #111827; /* Dark background similar to logo's bg */
+        }
+        .package-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .package-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px -4px rgba(0, 0, 0, 0.15), 0 5px 8px -3px rgba(0, 0, 0, 0.1);
+            border-color: #1DBF73; /* Fiverr green on hover */
+        }
+        .fiverr-button {
+            background-color: #1DBF73; /* Fiverr green */
+            color: white;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .fiverr-button:hover {
+            background-color: #18a060;
+            transform: translateY(-2px);
+        }
+        .section-title {
+            border-bottom: 3px solid #1DBF73; /* Fiverr green accent */
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1DBF73;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link:hover {
+            color: #1DBF73;
+        }
+        .logo-img-nav { /* Specific class for navbar logo */
+            max-height: 150px; /* Taille du logo dans la nav comme demandé */
+            width: auto; /* Pour maintenir les proportions */
+        }
+        .logo-img-footer { /* Specific class for footer logo */
+            height: 2.5rem; /* h-10 equivalent */
+            display: block; /* Prevents extra space below inline images */
+        }
+        .navbar-initial { /* Style initial de la navbar */
+            background-color: rgba(255, 255, 255, 0.8); /* Fond blanc semi-transparent initial */
+            backdrop-filter: blur(5px);
+             box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Légère ombre initiale */
+        }
+        .navbar-scrolled { /* Style de la navbar au défilement */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            /* Le fond blanc est retiré ici, la navbar garde son fond initial ou devient transparente si pas de .navbar-initial */
+        }
+        .portfolio-placeholder-icon {
+            width: 60px;
+            height: 60px;
+            color: #9ca3af; /* gray-400 */
+        }
+        #backToTopBtn {
+            display: none; /* Caché par défaut */
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #1DBF73; /* Fiverr green */
+            color: white;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 50%; /* Rond */
+            font-size: 18px; /* Taille de l'icône/flèche */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        #backToTopBtn:hover {
+            background-color: #18a060; /* Vert plus foncé au survol */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <nav id="navbar" class="fixed w-full z-20 top-0 transition-all duration-300 navbar-initial">
+        <div class="container mx-auto px-6 py-2 flex justify-between items-center"> 
+            <a href="#" class="flex items-center space-x-3">
+                <span class="font-extrabold text-2xl md:text-3xl text-gray-900 tracking-tight">RENDØR</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#about" class="nav-link text-gray-700 font-medium">About</a>
+                <a href="#packages" class="nav-link text-gray-700 font-medium">Packages</a>
+                <a href="#portfolio" class="nav-link text-gray-700 font-medium">Portfolio</a>
+                <a href="https://fr.fiverr.com/s/xX64b54" target="_blank" rel="noopener noreferrer" class="fiverr-button px-5 py-2.5 rounded-lg text-sm font-semibold">Visit Fiverr Profile</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" aria-label="Open Menu" class="text-gray-700 focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg py-2">
+            <a href="#about" class="block nav-link text-gray-700 font-medium px-6 py-3">About</a>
+            <a href="#packages" class="block nav-link text-gray-700 font-medium px-6 py-3">Packages</a>
+            <a href="#portfolio" class="block nav-link text-gray-700 font-medium px-6 py-3">Portfolio</a>
+            <a href="https://fr.fiverr.com/s/xX64b54" target="_blank" rel="noopener noreferrer" class="block fiverr-button mx-6 my-3 px-5 py-3 rounded-lg text-sm font-semibold text-center">Visit Fiverr Profile</a>
+        </div>
+    </nav>
+
+    <header id="home" class="hero-bg text-white pb-24 px-6 text-center"> 
+        <div class="container mx-auto">
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">Rendor Web Development</h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto">Clean code. Sharp design. Websites that make an impact.</p>
+            <a href="https://fr.fiverr.com/s/xX64b54" target="_blank" rel="noopener noreferrer" class="fiverr-button text-lg px-10 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition duration-300">
+                Get a Quote on Fiverr
+            </a>
+        </div>
+    </header>
+
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-4 section-title">About Rendor</h2>
+            <p class="text-center text-gray-600 mb-16 text-lg">Delivering clean, fluid, and visually mastered web experiences.</p>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-5">
+                    <h3 class="text-3xl font-semibold text-gray-800 mb-4">My Philosophy</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        At Rendor, I champion the art of bespoke web development. Forget generic templates and cumbersome CMS platforms. I specialize in crafting pure, efficient code (HTML, CSS, JavaScript) meticulously tailored to your unique vision. My core mission is to build lightweight, blazing-fast, and flawlessly responsive websites that provide an unparalleled user experience.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        The name "Rendor" embodies my dedication to a polished, high-fidelity final product. The 'play' icon in our logo? It's not about video – it symbolizes the action, interactivity, and dynamic energy I infuse into every web project, bringing your digital presence to life.
+                    </p>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl shadow-lg">
+                    <h3 class="text-3xl font-semibold text-gray-800 mb-5">What I Do Best</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="text-gray-700 leading-relaxed">Custom front-end development from scratch.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="text-gray-700 leading-relaxed">Pixel-perfect integration of your unique designs.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="text-gray-700 leading-relaxed">Building lightweight, fast-loading showcase websites.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="text-gray-700 leading-relaxed">Ensuring 100% responsiveness across all devices.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="text-gray-700 leading-relaxed">Hand-coded HTML, CSS, and JavaScript for optimal performance.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="packages" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-16 section-title">My Service Packages</h2>
+            <div class="grid lg:grid-cols-3 gap-10">
+                <div class="package-card bg-white p-8 rounded-xl shadow-lg text-center flex flex-col">
+                    <div class="text-5xl mb-5">🟩</div>
+                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Basic – Mini Site</h3>
+                    <p class="text-gray-600 mb-5 flex-grow">A professional, single-page responsive website (HTML/CSS) with a simple contact form. Perfect for a quick online presence.</p>
+                    <p class="text-lg font-semibold text-gray-700 mb-6">Ideal for startups & individuals</p>
+                    <a href="https://fr.fiverr.com/s/xX64b54" target="_blank" rel="noopener noreferrer" class="fiverr-button mt-auto block w-full px-6 py-3 rounded-lg font-semibold">View Details on Fiverr</a>
+                </div>
+
+                <div class="package-card bg-white p-8 rounded-xl shadow-xl text-center flex flex-col border-2 border-green-500 relative">
+                    <div class="absolute top-0 -right-0 -mt-4 -mr-4">
+                        <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-semibold bg-green-500 text-white shadow-md">
+                            Popular
+                        </span>
+                    </div>
+                    <div class="text-5xl mb-5">🟨</div>
+                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Standard – Simple Business Site</h3>
+                    <p class="text-gray-600 mb-5 flex-grow">A responsive website with 2-3 HTML/CSS pages, including a contact form and social media links. Great for small businesses.</p>
+                    <p class="text-lg font-semibold text-gray-700 mb-6">Most Popular Choice</p>
+                    <a href="https://fr.fiverr.com/s/xX64b54" target="_blank" rel="noopener noreferrer" class="fiverr-button mt-auto block w-full px-6 py-3 rounded-lg font-semibold">View Details on Fiverr</a>
+                </div>
+
+                <div class="package-card bg-white p-8 rounded-xl shadow-lg text-center flex flex-col">
+                    <div class="text-5xl mb-5">🟥</div>
+                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Premium – Pro Website</h3>
+                    <p class="text-gray-600 mb-5 flex-grow">Up to 5 custom responsive pages with light SEO, contact form, and map integration. For a comprehensive professional presence.</p>
+                     <p class="text-lg font-semibold text-gray-700 mb-6">Best Value for Professionals</p>
+                    <a href="https://fr.fiverr.com/s/xX64b54" target="_blank" rel="noopener noreferrer" class="fiverr-button mt-auto block w-full px-6 py-3 rounded-lg font-semibold">View Details on Fiverr</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="py-20 bg-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-16 section-title">My Work</h2>
+            <p class="text-gray-600 mb-12 text-lg max-w-2xl mx-auto">
+                As a specialist in bespoke web development, each project is unique. This very site serves as an initial example of my commitment to clean design and efficient code. More projects will be showcased here soon!
+            </p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="bg-gray-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="bg-gray-200 h-52 w-full rounded-lg mb-5 flex items-center justify-center">
+                        <svg class="portfolio-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Future Project Showcase</h3>
+                    <p class="text-gray-600 text-sm">Detailed description of a custom-built website, highlighting unique features and client success.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                     <div class="bg-gray-200 h-52 w-full rounded-lg mb-5 flex items-center justify-center">
+                        <svg class="portfolio-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a4 4 0 00-5.656 0L12 17.256l-1.772-1.828a4 4 0 10-5.656 5.656l6.364 6.364a4 4 0 005.656 0l6.364-6.364a4 4 0 000-5.656zM12 12.75L12 3"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Responsive Design Example</h3>
+                    <p class="text-gray-600 text-sm">Showcasing a project with flawless responsiveness and optimal performance across all devices.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                     <div class="bg-gray-200 h-52 w-full rounded-lg mb-5 flex items-center justify-center">
+                        <svg class="portfolio-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l-4 4m0 0l-4-4m4 4V4M6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Advanced Front-End Solution</h3>
+                    <p class="text-gray-600 text-sm">Highlighting a complex front-end challenge solved with innovative custom JavaScript and CSS.</p>
+                </div>
+            </div>
+             <a href="https://fr.fiverr.com/s/xX64b54" target="_blank" rel="noopener noreferrer" class="mt-16 inline-block fiverr-button text-lg px-10 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition duration-300">
+                Discuss Your Project
+            </a>
+        </div>
+    </section>
+
+    <section class="hero-bg text-white py-24 px-6 text-center">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold mb-6">Ready to elevate your online presence?</h2>
+            <p class="text-xl text-gray-300 mb-10 max-w-xl mx-auto">Let's build a fast, responsive, and impactful website tailored to your needs.</p>
+            <a href="https://fr.fiverr.com/s/xX64b54" target="_blank" rel="noopener noreferrer" class="bg-white text-green-600 text-lg px-12 py-4 rounded-xl font-bold shadow-lg hover:bg-gray-100 hover:text-green-700 transition duration-300 transform hover:scale-105">
+                Visit my Fiverr Profile & Get Started!
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 text-center">
+        <div class="container mx-auto px-6">
+            <div class="mb-4">
+                 <a href="#" class="inline-block">
+                    <div class="p-1 bg-black rounded-md inline-block"> 
+                        <img src="a8b53dcb-c6b0-4429-9046-764c3ec8fbe3.jpg" alt="Rendor Logo" class="logo-img-footer">
+                    </div>
+                 </a>
+            </div>
+            <p class="mb-2">&copy; <script>document.write(new Date().getFullYear())</script> Rendor. Custom Web Development.</p>
+            <p class="text-sm">Clean Code. Sharp Design. Impactful Websites.</p>
+            <p class="text-xs mt-4">Hand-coded with ❤️ and Tailwind CSS.</p>
+        </div>
+    </footer>
+
+    <button id="backToTopBtn" title="Go to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
+        </svg>
+    </button>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const heroSection = document.getElementById('home');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+
+        function getNavbarHeight() {
+            return navbar.offsetHeight || 0; // Retourne 0 si offsetHeight n'est pas encore dispo
+        }
+
+        function adjustHeroPadding() {
+            const navHeight = getNavbarHeight();
+            if (navHeight > 0) {
+                 // Ajoute un padding au hero équivalent à la hauteur de la nav + un peu de marge
+                heroSection.style.paddingTop = `${navHeight + 40}px`; 
+            } else {
+                setTimeout(adjustHeroPadding, 100); // Réessaye si la hauteur n'est pas encore définie
+            }
+        }
+        
+        window.addEventListener('load', adjustHeroPadding);
+        window.addEventListener('resize', adjustHeroPadding); // Réajuste si la taille de la fenêtre change
+
+        // Effet de la barre de navigation et bouton "Retour en Haut"
+        window.onscroll = function() {
+            // Effet d'ombre sur la navbar
+            if (window.pageYOffset > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+
+            // Affichage du bouton "Retour en Haut"
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                backToTopBtn.style.display = "block";
+                backToTopBtn.style.opacity = "1";
+            } else {
+                backToTopBtn.style.opacity = "0";
+                // Attendre la fin de la transition pour cacher
+                setTimeout(() => { 
+                    if(backToTopBtn.style.opacity === "0") { // Vérifie si toujours à 0 avant de cacher
+                        backToTopBtn.style.display = "none";
+                    }
+                }, 300); 
+            }
+        };
+
+        // Clic sur le bouton "Retour en Haut"
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+
+        // Menu mobile
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+            const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+            mobileMenuButton.setAttribute('aria-expanded', !expanded);
+        });
+
+        // Défilement fluide pour les ancres, en tenant compte de la hauteur de la navbar
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === "#") { // Si c'est le lien du logo vers le haut
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    }
+                    return;
+                }
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    }
+                    
+                    const navHeight = getNavbarHeight();
+                    const offsetPosition = targetElement.offsetTop - navHeight;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
